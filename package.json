@@ -1,0 +1,6 @@
+{
+	"private": true,
+	"devDependencies": {
+		"puppeteer": "^3.0.0"
+	}
+}
