@@ -43,5 +43,5 @@ jobs:
         git config --local user.name "Mihir Chaturvedi"
         git config --local user.email "plibither8@gmail.com"
         git add .
-        git commit -m "[AUTO] Add data for $(date --date="yesterday" +%F)"
+        git commit -m "[AUTO] Add data for $(date --date="yesterday" +%F)" || echo "No changes to commit"
         git push
