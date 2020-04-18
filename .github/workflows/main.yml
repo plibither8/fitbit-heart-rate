@@ -1,0 +1,41 @@
+name: "Heart Rate Bot"
+
+on:
+  push:
+    branches:
+      - master
+  schedule:
+    - cron: "0 0 * * *" # Every day
+
+jobs:
+  bot:
+    runs-on: ubuntu-latest
+    steps:
+    - uses: actions/checkout@v1
+
+    - name: Install Node
+      uses: actions/setup-node@v1
+      with:
+        node-version: '12.x'
+
+    - name: Install NPM dependancies
+      run: npm install
+
+    - name: Clone data repo
+      run: |
+        git clone https://github.com/plibither8/heart-rate
+        mv heart-rate data
+
+    - name: Run code
+      run: node index
+      env:
+        FITBIT_EMAIL: {{ secrets.FITBIT_EMAIL }}
+        FITBIT_PASSWORD: {{ secrets.FITBIT_PASSWORD }}
+
+    - name: Commit new data
+      run: |
+        cd data
+        git config --local user.name "Mihir Chaturvedi"
+        git config --local user.email "plibither8@gmail.com"
+        git commit -am "[AUTO] Add data for $(date +%F)"
+        git push
