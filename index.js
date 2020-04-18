@@ -119,7 +119,11 @@ const main = async () => {
 		.split(' ')[0]
 		.replace(/-/g, '/');
 
-	const browser = await pptr.launch({headless: CI});
+	const browser = await pptr.launch({
+		headless: true,
+		executablePath: 'google-chrome-stable'
+	});
+
 	const page = await browser.newPage();
 	await page.setViewport({width: 1200, height: 720});
 
