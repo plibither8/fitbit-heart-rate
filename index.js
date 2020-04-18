@@ -61,7 +61,7 @@ const deleteKeys = data => data.map(point => {
 	return required;
 });
 
-const processResponse = async response => {
+const processResponse = async (response, page) => {
 	// Checks
 	if (response.url() !== DASH_XHR_URL) return false;
 
@@ -75,6 +75,15 @@ const processResponse = async response => {
 	if (!Array.isArray(json)) return false;
 	if (json.length === 0) return false;
 	if (!('dataSets' in json[0])) return false;
+
+	ongoingDate = new URL(page.url()).pathname.slice(1);
+
+	if (ongoingDate === '') {
+		next(page);
+		return false;
+	}
+
+	metadata.lastUpdated = ongoingDate;
 
 	const {dataPoints} = json[0].dataSets.activity;
 	await store(deleteKeys(dataPoints));
@@ -90,13 +99,12 @@ const next = async page => {
 	}
 
 	await delay(1000); // wait for a second to prevent overflooding of requests
-	return nextButton.click();
+	nextButton.click();
 }
 
 // Exit function to graciously exit the script
 const exit = async () => {
 	// Write lastUpdated to metadata file
-	metadata.lastUpdated = ongoingDate;
 	await fse.outputJson('data/meta.json', metadata);
 
 	// Exit script
@@ -104,6 +112,13 @@ const exit = async () => {
 }
 
 const main = async () => {
+	const finalDate = new Date(
+			new Date().getTime() - 24*60*60*1000 // yesterday
+		)
+		.toLocaleString('sv')
+		.split(' ')[0]
+		.replace(/-/g, '/');
+
 	const browser = await pptr.launch({headless: true});
 	const page = await browser.newPage();
 	await page.setViewport({width: 1200, height: 720});
@@ -114,12 +129,13 @@ const main = async () => {
 	// Setup the XHR interceptor to catch activity data
 	page.on('response', async response => {
 		// process the response we received (any response)
-		if (await processResponse(response)) {
+		if (await processResponse(response, page)) {
 			console.info('✔️ ', 'Date:', ongoingDate);
 
-			// Hacky way of ensuring today's date doesn't make ongoingDate ''
-			const bufferDate = new URL(page.url()).pathname.slice(1);
-			ongoingDate = bufferDate.length > 0 ? bufferDate : ongoingDate;
+			// If the current date matches yesterday's date
+			if (ongoingDate === finalDate) {
+				return exit();
+			}
 
 			return next(page); // click next date!
 		}
