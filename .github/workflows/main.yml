@@ -42,5 +42,5 @@ jobs:
         cd data
         git config --local user.name "Mihir Chaturvedi"
         git config --local user.email "plibither8@gmail.com"
-        git commit -am "[AUTO] Add data for $(date +%F)"
+        git commit -am "[AUTO] Add data for $(date --date="yesterday" +%F)"
         git push
