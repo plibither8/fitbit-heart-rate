@@ -28,17 +28,22 @@ const buildUrl = date => `${FITBIT_DASH_BASE_URL}/${date}`;
 const delay = duration => new Promise(res => setTimeout(res, duration));
 
 const login = async page => {
+	console.info('…', 'Login process started');
+
 	await page.goto(LOGIN_URL);
 	await page.waitForNavigation({waitUntil: 'networkidle0'});
+	console.info('✔️ ', 'Login page loaded');
 
 	await page.type('#ember653', FITBIT_EMAIL);
 	await page.type('#ember654', FITBIT_PASSWORD);
 	await page.click('#ember694');
+	console.info('✔️ ', 'Login credentials submitted');
 
+	console.info('…', 'Waiting for dash to load');
 	await page.waitForNavigation({waitUntil: 'networkidle0'});
 	await page.waitForSelector(DASH_TILE_CONTAINER_SELECTOR, {visible: true, timeout: 0});
 
-	console.info('✔️', 'Logged in');
+	console.info('✔️ ', 'Logged in!');
 }
 
 const goToDate = async (page, date) => {
@@ -110,7 +115,7 @@ const main = async () => {
 	page.on('response', async response => {
 		// process the response we received (any response)
 		if (await processResponse(response)) {
-			console.info('✔️', 'Date:', ongoingDate);
+			console.info('✔️ ', 'Date:', ongoingDate);
 
 			// Hacky way of ensuring today's date doesn't make ongoingDate ''
 			const bufferDate = new URL(page.url()).pathname.slice(1);
