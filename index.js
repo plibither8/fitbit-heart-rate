@@ -1,7 +1,7 @@
 const pptr = require('puppeteer');
 const fse = require('fs-extra');
 
-const {FITBIT_EMAIL, FITBIT_PASSWORD} = process.env;
+const {FITBIT_EMAIL, FITBIT_PASSWORD, CI = false} = process.env;
 const START_DATE = process.argv[2];
 
 const DASH_TILE_CONTAINER_SELECTOR = '#dash > div.tileContainer';
@@ -119,7 +119,7 @@ const main = async () => {
 		.split(' ')[0]
 		.replace(/-/g, '/');
 
-	const browser = await pptr.launch({headless: true});
+	const browser = await pptr.launch({headless: CI});
 	const page = await browser.newPage();
 	await page.setViewport({width: 1200, height: 720});
 
