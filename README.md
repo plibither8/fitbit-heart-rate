@@ -8,7 +8,7 @@ A small script that automates the process of collecting heart rate data from Fit
 
 Alternately, one can export their entire Fitbit data from their account settings, but that contains way more (granular) data than I require, and it cannot be automated.
 
-I have also set a [cron-based GitHub Action workflow](https://github.com/plibither8/fitbit-heart-rate/actions) that fetches new heart rate data every day and stores it in a private repository.
+I have also set up a [cron-based GitHub Action workflow](https://github.com/plibither8/fitbit-heart-rate/actions) that fetches new heart rate data every day and stores it in a private repository.
 
 ## Usage
 
