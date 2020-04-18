@@ -23,8 +23,10 @@ jobs:
 
     - name: Clone data repo
       run: |
-        git clone https://github.com/plibither8/heart-rate
+        git clone https://plibither8:$ACCESS_TOKEN@github.com/plibither8/heart-rate
         mv heart-rate data
+      env:
+        ACCESS_TOKEN: ${{ secrets.ACCESS_TOKEN }}
 
     - name: Run code
       run: node index
