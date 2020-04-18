@@ -1,6 +1,7 @@
 {
 	"private": true,
 	"devDependencies": {
+		"fs-extra": "^9.0.0",
 		"puppeteer": "^3.0.0"
 	}
 }
