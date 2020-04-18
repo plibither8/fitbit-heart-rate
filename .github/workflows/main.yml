@@ -29,8 +29,8 @@ jobs:
     - name: Run code
       run: node index
       env:
-        FITBIT_EMAIL: {{ secrets.FITBIT_EMAIL }}
-        FITBIT_PASSWORD: {{ secrets.FITBIT_PASSWORD }}
+        FITBIT_EMAIL: ${{ secrets.FITBIT_EMAIL }}
+        FITBIT_PASSWORD: ${{ secrets.FITBIT_PASSWORD }}
 
     - name: Commit new data
       run: |
