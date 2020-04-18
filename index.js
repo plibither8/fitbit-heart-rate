@@ -37,6 +37,8 @@ const login = async page => {
 
 	await page.waitForNavigation({waitUntil: 'networkidle0'});
 	await page.waitForSelector(DASH_TILE_CONTAINER_SELECTOR, {visible: true, timeout: 0});
+
+	console.info('✔️', 'Logged in');
 }
 
 const goToDate = async (page, date) => {
@@ -97,7 +99,7 @@ const exit = async () => {
 }
 
 const main = async () => {
-	const browser = await pptr.launch({headless: false});
+	const browser = await pptr.launch({headless: true});
 	const page = await browser.newPage();
 	await page.setViewport({width: 1200, height: 720});
 
@@ -108,6 +110,8 @@ const main = async () => {
 	page.on('response', async response => {
 		// process the response we received (any response)
 		if (await processResponse(response)) {
+			console.info('✔️', 'Date:', ongoingDate);
+
 			// Hacky way of ensuring today's date doesn't make ongoingDate ''
 			const bufferDate = new URL(page.url()).pathname.slice(1);
 			ongoingDate = bufferDate.length > 0 ? bufferDate : ongoingDate;
