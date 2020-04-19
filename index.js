@@ -95,6 +95,7 @@ const next = async page => {
 	const nextButton = await page.$(NEXT_DATE_BUTTON_SELECTOR);
 
 	if (!nextButton) {
+		metadata.lastChecked = new Date().getTime();
 		return exit();
 	}
 
