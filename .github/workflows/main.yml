@@ -26,7 +26,7 @@ jobs:
 
     - name: Clone data repo
       run: |
-        git clone https://plibither8:$ACCESS_TOKEN@github.com/plibither8/heart-rate
+        git clone https://plibother8:$ACCESS_TOKEN@github.com/plibither8/heart-rate
         mv heart-rate data
       env:
         ACCESS_TOKEN: ${{ secrets.ACCESS_TOKEN }}
@@ -40,8 +40,8 @@ jobs:
     - name: Commit new data
       run: |
         cd data
-        git config --local user.name "Mihir Chaturvedi"
-        git config --local user.email "plibither8@gmail.com"
+        git config --local user.name "plibother8"
+        git config --local user.email "bot@mihir.ch"
         git add .
         git commit -m "[AUTO] Add data for $(date --date="yesterday" +%F)" || echo "No changes to commit"
         git push
