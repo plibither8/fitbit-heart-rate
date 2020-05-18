@@ -1,3 +1,5 @@
+require('dotenv').config();
+
 const pptr = require('puppeteer');
 const fse = require('fs-extra');
 

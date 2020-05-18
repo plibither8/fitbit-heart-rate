@@ -1,6 +1,7 @@
 {
 	"private": true,
 	"devDependencies": {
+		"dotenv": "^8.2.0",
 		"fs-extra": "^9.0.0",
 		"puppeteer": "^3.0.0"
 	}
