@@ -123,7 +123,7 @@ const main = async () => {
     .replace(/-/g, '/');
 
   const browser = await pptr.launch({
-    headless: false,
+    headless: true,
     executablePath: 'google-chrome-stable'
   });
 
